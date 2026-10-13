@@ -123,10 +123,15 @@
                             <button
                                 class="btn btn-light dropdown-toggle d-flex align-items-center gap-2 rounded-pill border"
                                 type="button" data-bs-toggle="dropdown">
-                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width: 28px; height: 28px; font-size: 0.85rem;">
-                                    {{ mb_substr(Auth::user()->name, 0, 1) }}
-                                </div>
+                                @if(Auth::user()->has_custom_avatar)
+                                    <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                        class="rounded-circle object-fit-cover shadow-sm border" style="width: 28px; height: 28px;">
+                                @else
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 28px; height: 28px; font-size: 0.85rem;">
+                                        {{ mb_substr(Auth::user()->name, 0, 1) }}
+                                    </div>
+                                @endif
                                 <span class="small fw-semibold">{{ Auth::user()->name }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">

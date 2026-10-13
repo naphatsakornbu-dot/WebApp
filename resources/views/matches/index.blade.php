@@ -52,8 +52,9 @@
                     </div>
 
                     <div class="p-3 bg-light rounded-3 small flex-grow-1 mb-3">
-                        <div class="fw-semibold text-dark mb-1">
-                            <i class="bi bi-person-fill text-secondary me-1"></i> เจ้าของก๊วน: {{ $match->booking->user->name }}
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <img src="{{ $match->booking->user->avatar_url }}" alt="{{ $match->booking->user->name }}" class="rounded-circle object-fit-cover shadow-sm border" style="width: 28px; height: 28px;">
+                            <span class="fw-semibold text-dark">เจ้าของก๊วน: {{ $match->booking->user->name }}</span>
                         </div>
                         <p class="text-muted mb-0">"{{ $match->details ?? 'ยินดีต้อนรับเพื่อนร่วมเล่นทุกคนครับ' }}"</p>
                     </div>

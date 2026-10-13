@@ -153,9 +153,12 @@
                         <h6 class="fw-bold small mb-2">ผู้ที่ขอเข้าร่วมรอบนี้:</h6>
                         @forelse($booking->playerMatch->members as $member)
                             <div class="p-2 border rounded-3 mb-2 d-flex justify-content-between align-items-center bg-white">
-                                <div>
-                                    <div class="fw-bold small">{{ $member->user->name }}</div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">{{ $member->message ?? 'ไม่มีข้อความ' }}</div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="{{ $member->user->avatar_url }}" alt="{{ $member->user->name }}" class="rounded-circle object-fit-cover shadow-sm border" style="width: 32px; height: 32px;">
+                                    <div>
+                                        <div class="fw-bold small">{{ $member->user->name }}</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">{{ $member->message ?? 'ไม่มีข้อความ' }}</div>
+                                    </div>
                                 </div>
                                 <div class="d-flex align-items-center gap-1">
                                     @if($member->status === 'pending' && $booking->user_id === Auth::id())

@@ -34,7 +34,18 @@
                 @forelse($users as $u)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td class="fw-bold text-dark">{{ $u->name }}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                @if($u->has_custom_avatar)
+                                    <img src="{{ $u->avatar_url }}" alt="{{ $u->name }}" class="rounded-circle object-fit-cover shadow-sm border" style="width: 32px; height: 32px;">
+                                @else
+                                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                                        {{ mb_substr($u->name, 0, 1) }}
+                                    </div>
+                                @endif
+                                <span class="fw-bold text-dark">{{ $u->name }}</span>
+                            </div>
+                        </td>
                         <td>{{ $u->email }}</td>
                         <td>{{ $u->phone ?? '-' }}</td>
                         <td>

@@ -84,10 +84,15 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button"
                                 data-bs-toggle="dropdown">
-                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width: 34px; height: 34px; font-weight: 600;">
-                                    {{ mb_substr(Auth::user()->name, 0, 1) }}
-                                </div>
+                                @if(Auth::user()->has_custom_avatar)
+                                    <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                        class="rounded-circle object-fit-cover shadow-sm border" style="width: 34px; height: 34px;">
+                                @else
+                                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 34px; height: 34px; font-weight: 600;">
+                                        {{ mb_substr(Auth::user()->name, 0, 1) }}
+                                    </div>
+                                @endif
                                 <span class="fw-semibold">{{ Auth::user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
