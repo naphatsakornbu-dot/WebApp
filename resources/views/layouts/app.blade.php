@@ -177,13 +177,16 @@
                         IT<span class="text-success">BADDIWA</span>
                     </h5>
                     <p class="footer-desc mb-3">
-                        ระบบจองสนามแบดมินตันมาตรฐานระดับแข่งขัน พื้นยาง BWF ระบบไฟ LED ถนอมสายตา ไร้เงาสะท้อน พร้อมระบบเช่าอุปกรณ์และค้นหาก๊วนตีแบดครบวงจร
+                        ระบบจองสนามแบดมินตันมาตรฐานระดับแข่งขัน พื้นยาง BWF ระบบไฟ LED ถนอมสายตา ไร้เงาสะท้อน
+                        พร้อมระบบเช่าอุปกรณ์และค้นหาก๊วนตีแบดครบวงจร
                     </p>
                     <div class="d-flex flex-wrap gap-2">
-                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
+                        <span
+                            class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
                             <i class="bi bi-shield-check me-1"></i> มาตรฐานแข่งขัน BWF
                         </span>
-                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 px-3 py-2 rounded-pill">
+                        <span
+                            class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 px-3 py-2 rounded-pill">
                             <i class="bi bi-lightning-charge me-1"></i> จองออนไลน์ 24 ชม.
                         </span>
                     </div>
@@ -216,18 +219,19 @@
                     </div>
                     <div class="footer-info-item">
                         <i class="bi bi-geo-alt-fill text-danger"></i>
-                        <span>123 อาคารสปอร์ตคอมเพล็กซ์ ถ.สุขุมวิท กรุงเทพฯ</span>
+                        <span>SC09 อาคารวิทยวิภาส คณะวิทยาศาสตร์ มหาวิทยาลัยขอนแก่น</span>
                     </div>
                     <div class="footer-info-item">
                         <i class="bi bi-telephone-fill text-success"></i>
-                        <span>ติดต่อสอบถาม: <strong class="text-white">081-234-5678</strong></span>
+                        <span>ติดต่อสอบถาม: <strong class="text-white">091-111-1111</strong></span>
                     </div>
                 </div>
             </div>
             <hr>
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 footer-copyright">
                 <div>
-                    &copy; {{ date('Y') }} <strong class="text-white">ITBADDIWA</strong>. สงวนลิขสิทธิ์ทุกประการ (Court Booking System)
+                    &copy; {{ date('Y') }} <strong class="text-white">ITBADDIWA</strong>. สงวนลิขสิทธิ์ทุกประการ (Court
+                    Booking System)
                 </div>
                 <div class="text-white-50 small">
                     ระบบจัดการและจองสนามแบดมินตันออนไลน์

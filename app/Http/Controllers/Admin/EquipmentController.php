@@ -9,10 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $equipments = Equipment::latest()->get();
-        return view('admin.equipments.index', compact('equipments'));
+        $status = $request->get('status', 'active');
+        if ($status === 'trashed') {
+            $equipments = Equipment::onlyTrashed()->latest()->get();
+        } else {
+            $equipments = Equipment::latest()->get();
+        }
+
+        $trashedCount = Equipment::onlyTrashed()->count();
+        $activeCount = Equipment::count();
+
+        return view('admin.equipments.index', compact('equipments', 'status', 'trashedCount', 'activeCount'));
     }
 
     public function create()
@@ -78,11 +87,27 @@ class EquipmentController extends Controller
 
     public function destroy(Equipment $equipment)
     {
+        $equipment->delete();
+
+        return redirect()->route('admin.equipments.index')->with('success', 'ย้ายอุปกรณ์ไปยังถังขยะเรียบร้อยแล้ว (Soft Delete)');
+    }
+
+    public function restore($id)
+    {
+        $equipment = Equipment::onlyTrashed()->findOrFail($id);
+        $equipment->restore();
+
+        return redirect()->route('admin.equipments.index', ['status' => 'trashed'])->with('success', 'กู้คืนอุปกรณ์เรียบร้อยแล้ว');
+    }
+
+    public function forceDelete($id)
+    {
+        $equipment = Equipment::onlyTrashed()->findOrFail($id);
         if ($equipment->image && Storage::disk('public')->exists($equipment->image)) {
             Storage::disk('public')->delete($equipment->image);
         }
-        $equipment->delete();
+        $equipment->forceDelete();
 
-        return redirect()->route('admin.equipments.index')->with('success', 'ลบอุปกรณ์เรียบร้อยแล้ว');
+        return redirect()->route('admin.equipments.index', ['status' => 'trashed'])->with('success', 'ลบอุปกรณ์ถาวรเรียบร้อยแล้ว');
     }
 }

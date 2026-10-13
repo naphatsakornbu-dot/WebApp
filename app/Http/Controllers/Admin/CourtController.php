@@ -9,10 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 class CourtController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courts = Court::withCount('bookings')->latest()->get();
-        return view('admin.courts.index', compact('courts'));
+        $status = $request->get('status', 'active');
+        if ($status === 'trashed') {
+            $courts = Court::onlyTrashed()->withCount('bookings')->latest()->get();
+        } else {
+            $courts = Court::withCount('bookings')->latest()->get();
+        }
+
+        $trashedCount = Court::onlyTrashed()->count();
+        $activeCount = Court::count();
+
+        return view('admin.courts.index', compact('courts', 'status', 'trashedCount', 'activeCount'));
     }
 
     public function create()
@@ -81,11 +90,27 @@ class CourtController extends Controller
 
     public function destroy(Court $court)
     {
+        $court->delete();
+
+        return redirect()->route('admin.courts.index')->with('success', 'ย้ายสนามไปยังถังขยะเรียบร้อยแล้ว (Soft Delete)');
+    }
+
+    public function restore($id)
+    {
+        $court = Court::onlyTrashed()->findOrFail($id);
+        $court->restore();
+
+        return redirect()->route('admin.courts.index', ['status' => 'trashed'])->with('success', 'กู้คืนข้อมูลสนามเรียบร้อยแล้ว');
+    }
+
+    public function forceDelete($id)
+    {
+        $court = Court::onlyTrashed()->findOrFail($id);
         if ($court->image && Storage::disk('public')->exists($court->image)) {
             Storage::disk('public')->delete($court->image);
         }
-        $court->delete();
+        $court->forceDelete();
 
-        return redirect()->route('admin.courts.index')->with('success', 'ลบข้อมูลสนามเรียบร้อยแล้ว');
+        return redirect()->route('admin.courts.index', ['status' => 'trashed'])->with('success', 'ลบข้อมูลสนามถาวรเรียบร้อยแล้ว');
     }
 }

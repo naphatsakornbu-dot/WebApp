@@ -15,34 +15,13 @@
                     <p class="text-muted small">กรอกอีเมลและรหัสผ่านเพื่อเข้าใช้งานระบบจองสนาม</p>
                 </div>
 
-                <!-- 1-Click Quick Login Box -->
-                <div class="card bg-success-subtle border-0 rounded-4 p-3 mb-4 shadow-sm">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="fw-bold text-success small"><i class="bi bi-lightning-charge-fill me-1"></i> เข้าสู่ระบบด่วน (1-Click Login)</span>
-                        <span class="badge bg-success text-white rounded-pill px-2">คลิกเดียวเข้าเลย</span>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="button" onclick="quickLogin('admin@badminton.com', 'password123')" class="btn btn-dark btn-sm rounded-pill fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2 py-2">
-                            <i class="bi bi-shield-lock-fill text-warning fs-6"></i>
-                            <span>เข้าสู่ระบบเป็น <strong>Admin (ผู้ดูแลระบบ)</strong></span>
-                        </button>
-                        <button type="button" onclick="quickLogin('somchai@gmail.com', 'password123')" class="btn btn-outline-success btn-sm rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 py-2">
-                            <i class="bi bi-person-circle fs-6"></i>
-                            <span>เข้าสู่ระบบเป็น <strong>User (ลูกค้าทั่วไป)</strong></span>
-                        </button>
-                    </div>
-                    <div class="mt-2 text-muted small" style="font-size: 0.78rem;">
-                        <i class="bi bi-info-circle me-1"></i> รหัสผ่านเริ่มต้น: <code>password123</code> | Admin รองรับทั้งพิมพ์ <code>admin</code> หรือ <code>admin@badminton.com</code>
-                    </div>
-                </div>
-
                 <form id="loginForm" action="{{ route('login.post') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">อีเมลหรือชื่อผู้ใช้ (Email / Username)</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
-                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="admin@badminton.com หรือ admin">
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="กรอกอีเมลของคุณ">
                         </div>
                         @error('email')
                             <div class="text-danger small mt-1">{{ $message }}</div>
@@ -79,14 +58,4 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-function quickLogin(email, password) {
-    document.getElementById('email').value = email;
-    document.getElementById('password').value = password;
-    document.getElementById('loginForm').submit();
-}
-</script>
-@endpush
 @endsection

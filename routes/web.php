@@ -80,6 +80,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     // Court Management
+    Route::post('courts/{id}/restore', [AdminCourtController::class, 'restore'])->name('courts.restore');
+    Route::delete('courts/{id}/force-delete', [AdminCourtController::class, 'forceDelete'])->name('courts.force-delete');
     Route::resource('courts', AdminCourtController::class);
 
     // Booking Management
@@ -93,6 +95,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/payments/{payment}/reject', [AdminPaymentController::class, 'reject'])->name('payments.reject');
 
     // Equipment Management
+    Route::post('equipments/{id}/restore', [AdminEquipmentController::class, 'restore'])->name('equipments.restore');
+    Route::delete('equipments/{id}/force-delete', [AdminEquipmentController::class, 'forceDelete'])->name('equipments.force-delete');
     Route::resource('equipments', AdminEquipmentController::class);
 
     // Court Maintenance

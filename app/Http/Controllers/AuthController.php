@@ -71,7 +71,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง (สำหรับแอดมินใช้: admin@badminton.com หรือ admin รหัส: password123)',
+            'email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง',
         ])->onlyInput('email');
     }
 

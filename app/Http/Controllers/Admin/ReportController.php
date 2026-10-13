@@ -21,6 +21,7 @@ class ReportController extends Controller
 
         // 1. Report: Bookings (Join: users + bookings + courts + payments)
         $bookingQuery = DB::table('bookings')
+            ->whereNull('bookings.deleted_at')
             ->join('users', 'bookings.user_id', '=', 'users.id')
             ->join('courts', 'bookings.court_id', '=', 'courts.id')
             ->leftJoin('payments', 'bookings.id', '=', 'payments.booking_id')
