@@ -22,14 +22,15 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:10240'],
             'password' => ['nullable', 'confirmed', 'min:6'],
         ], [
             'name.required' => 'กรุณากรอกชื่อ-นามสกุล',
             'phone.required' => 'กรุณากรอกเบอร์โทรศัพท์',
             'avatar.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
             'avatar.mimes' => 'รูปภาพต้องเป็นประเภท: jpeg, png, jpg, webp, gif',
-            'avatar.max' => 'ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB',
+            'avatar.max' => 'ขนาดไฟล์รูปภาพต้องไม่เกิน 10MB',
+            'avatar.uploaded' => 'อัปโหลดรูปภาพไม่สำเร็จ ไฟล์มีขนาดใหญ่เกินไป กรุณาเลือกไฟล์ขนาดไม่เกิน 2MB',
             'password.confirmed' => 'การยืนยันรหัสผ่านใหม่ไม่ตรงกัน',
             'password.min' => 'รหัสผ่านใหม่ต้องมีความยาวอย่างน้อย 6 ตัวอักษร',
         ]);

@@ -34,7 +34,7 @@
                                        name="avatar"
                                        accept="image/jpeg,image/png,image/jpg,image/webp">
                                 <div class="form-text small text-muted mt-1" style="font-size: 0.78rem;">
-                                    รองรับ JPG, PNG, WEBP (ขนาดไม่เกิน 2MB)
+                                    รองรับ JPG, PNG, WEBP (ระบบจะปรับและย่อขนาดให้อัตโนมัติ)
                                 </div>
                                 @error('avatar')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
@@ -106,17 +106,74 @@
 
 @push('scripts')
 <script>
-    document.getElementById('avatarInput')?.addEventListener('change', function(e) {
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarPreview = document.getElementById('avatarPreview');
+    let isCompressing = false;
+
+    avatarInput?.addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const preview = document.getElementById('avatarPreview');
-                if (preview) {
-                    preview.src = event.target.result;
-                }
-            };
-            reader.readAsDataURL(file);
+        if (!file) return;
+
+        // Show instant preview
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            if (avatarPreview) {
+                avatarPreview.src = event.target.result;
+            }
+
+            // Auto-compress large images using Canvas to prevent server upload limit errors
+            if (file.type.startsWith('image/')) {
+                isCompressing = true;
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height = Math.round((height * MAX_SIZE) / width);
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width = Math.round((width * MAX_SIZE) / height);
+                            height = MAX_SIZE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(function(blob) {
+                        if (blob && window.DataTransfer) {
+                            const newFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            const dt = new DataTransfer();
+                            dt.items.add(newFile);
+                            avatarInput.files = dt.files;
+                        }
+                        isCompressing = false;
+                    }, 'image/jpeg', 0.85);
+                };
+                img.src = event.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Make sure form does not submit while compression is ongoing
+    document.querySelector('form')?.addEventListener('submit', function(e) {
+        if (isCompressing) {
+            e.preventDefault();
+            setTimeout(() => {
+                this.submit();
+            }, 300);
         }
     });
 </script>
